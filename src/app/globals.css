@@ -1,12 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  background: #020617;
+/* ─── Design Tokens ─────────────────────────────────────────── */
+:root {
+  /* Sidebar */
+  --sidebar-bg:       #0f1117;
+  --sidebar-border:   #1e2130;
+  --sidebar-text:     #8b93a7;
+  --sidebar-active:   #ffffff;
+  --sidebar-hover:    #1a1f2e;
+  --sidebar-active-bg:#1e2b4a;
+
+  /* Main surface */
+  --bg-base:          #f5f6f8;
+  --bg-surface:       #ffffff;
+  --bg-elevated:      #fafafa;
+  --bg-muted:         #f0f1f4;
+  --bg-hover:         #f5f6f8;
+
+  /* Accent - sharp indigo */
+  --accent:           #3b5bdb;
+  --accent-light:     #e8efff;
+  --accent-mid:       #bac8ff;
+  --accent-text:      #364fc7;
+
+  /* Semantic colors */
+  --green:            #0ca678;
+  --green-light:      #e6fcf5;
+  --green-mid:        #96f2d7;
+
+  --red:              #e03131;
+  --red-light:        #fff5f5;
+  --red-mid:          #ffa8a8;
+
+  --yellow:           #e67700;
+  --yellow-light:     #fff9db;
+  --yellow-mid:       #ffec99;
+
+  --blue:             #1971c2;
+  --blue-light:       #e7f5ff;
+  --blue-mid:         #a5d8ff;
+
+  /* Borders */
+  --border:           #e4e6eb;
+  --border-mid:       #ced4da;
+  --border-strong:    #adb5bd;
+
+  /* Text */
+  --text-primary:     #1a1d23;
+  --text-secondary:   #4a5568;
+  --text-muted:       #868e96;
+  --text-xmuted:      #ced4da;
 }
 
-* {
-  box-sizing: border-box;
+/* ─── Base Reset ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* ─── Typography ──────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+code, .mono {
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  font-size: 0.875em;
+}
+
+/* ─── Card ────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: border-color 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--border-mid);
+}
+
+/* ─── Stat Card ───────────────────────────────────────────────── */
+.stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  border-color: var(--border-mid);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* ─── Cyber card alias ────────────────────────────────────────── */
+.cyber-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.cyber-card:hover {
+  border-color: var(--border-mid);
+}
+
+/* ─── Nav Active State ────────────────────────────────────────── */
+.nav-active {
+  background: var(--sidebar-active-bg);
+  color: var(--sidebar-active) !important;
+  border-radius: 6px;
+}
+
+.nav-active .nav-icon {
+  color: var(--sidebar-active) !important;
+}
+
+/* ─── Text Utilities ──────────────────────────────────────────── */
+.text-gradient {
+  color: var(--accent);
+  background: none;
+  -webkit-text-fill-color: unset;
+}
+
+.text-gradient-emerald { color: var(--green); background: none; -webkit-text-fill-color: unset; }
+.text-gradient-rose    { color: var(--red);   background: none; -webkit-text-fill-color: unset; }
+.text-gradient-amber   { color: var(--yellow); background: none; -webkit-text-fill-color: unset; }
+
+/* ─── Pulse Dot ───────────────────────────────────────────────── */
+.pulse-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #40c057;
+  animation: pulse-fade 2.5s ease-in-out infinite;
+}
+
+.pulse-dot-violet {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--accent);
+  animation: pulse-fade 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-fade {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ─── Progress Bar ────────────────────────────────────────────── */
+.progress-fill {
+  animation: fillIn 0.7s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+@keyframes fillIn {
+  from { width: 0; }
+}
+
+/* ─── Fade In ─────────────────────────────────────────────────── */
+.fade-in {
+  animation: fadeUp 0.2s ease forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Table Row Hover ─────────────────────────────────────────── */
+.table-row-hover:hover {
+  background: var(--bg-hover);
+}
+
+/* ─── Badge Variants ──────────────────────────────────────────── */
+.badge-high   { background: var(--red-light);    color: var(--red);    border: 1px solid var(--red-mid); }
+.badge-medium { background: var(--yellow-light);  color: var(--yellow); border: 1px solid var(--yellow-mid); }
+.badge-low    { background: var(--green-light);   color: var(--green);  border: 1px solid var(--green-mid); }
+.badge-info   { background: var(--blue-light);    color: var(--blue);   border: 1px solid var(--blue-mid); }
+.badge-accent { background: var(--accent-light);  color: var(--accent); border: 1px solid var(--accent-mid); }
+
+/* ─── Input Field ─────────────────────────────────────────────── */
+.input-field {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 13.5px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input-field::placeholder { color: var(--text-muted); }
+.input-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(59,91,219,0.12);
+}
+
+/* ─── Button Primary ──────────────────────────────────────────── */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 13.5px;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: background 0.12s ease, box-shadow 0.12s ease;
+  letter-spacing: -0.01em;
+}
+.btn-primary:hover {
+  background: var(--accent-text);
+  box-shadow: 0 2px 8px rgba(59,91,219,0.25);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+}
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Scrollbars ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-mid);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+/* ─── Section Label ───────────────────────────────────────────── */
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* ─── Divider ─────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── Status pill ─────────────────────────────────────────────── */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Hover scale util ────────────────────────────────────────── */
+.hover-scale:hover {
+  transform: translateY(-1px);
 }
