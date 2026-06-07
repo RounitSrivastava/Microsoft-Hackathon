@@ -51,20 +51,51 @@ export function buildGraph({
     });
   }
 
-  // --- 2. Add Employee Nodes (Column 1: x = 100) ---
+  // --- 2. Compute Swimlane Base Coordinates dynamically to prevent overlaps ---
+  const projectLevelCounts: Record<string, number> = {};
+  tasks.forEach((task) => {
+    const level = taskLevels[task.id] || 0;
+    const key = `${task.project}_${level}`;
+    projectLevelCounts[key] = (projectLevelCounts[key] || 0) + 1;
+  });
+
+  const projectHeights: Record<string, number> = {};
+  projects.forEach((proj) => {
+    let maxCount = 1;
+    tasks.forEach((task) => {
+      if (task.project === proj.id) {
+        const level = taskLevels[task.id] || 0;
+        const count = projectLevelCounts[`${proj.id}_${level}`] || 0;
+        if (count > maxCount) {
+          maxCount = count;
+        }
+      }
+    });
+    projectHeights[proj.id] = maxCount;
+  });
+
+  const projectBaseY: Record<string, number> = {};
+  let currentY = 100;
+  projects.forEach((proj) => {
+    projectBaseY[proj.id] = currentY;
+    const height = projectHeights[proj.id] * 170; // 170px height per task node
+    currentY += Math.max(260, height + 100); // Spacing between projects
+  });
+
+  // --- 3. Add Employee Nodes (Column 1: x = 100) ---
   employees.forEach((emp, index) => {
     const load = report.employeeLoads[emp.id];
     nodes.push({
       id: emp.id,
       type: "employeeNode",
-      position: { x: 100, y: 150 + index * 200 },
+      position: { x: 100, y: 150 + index * 260 },
       data: {
         label: emp.name,
         role: emp.role,
         owner: emp.name,
         status: load.riskLevel === "High" ? "Overloaded" : "Healthy",
         risk: load.riskLevel,
-        members: 1, // Individual
+        members: 1,
         workload: load.workloadScore,
         tasks: load.activeCount,
         aiInsight: load.riskLevel === "High" 
@@ -77,13 +108,17 @@ export function buildGraph({
     });
   });
 
-  // --- 3. Add Project Nodes (Column 2: x = 450) ---
-  projects.forEach((proj, index) => {
+  // --- 4. Add Project Nodes (Column 2: x = 450, centered vertically next to tasks) ---
+  projects.forEach((proj) => {
     const projRisk = report.projectRisks[proj.id];
+    const swimlaneBaseY = projectBaseY[proj.id];
+    const heightTasks = projectHeights[proj.id] * 170;
+    const y = swimlaneBaseY + Math.max(0, (heightTasks - 160) / 2);
+
     nodes.push({
       id: proj.id,
       type: "projectNode",
-      position: { x: 450, y: 180 + index * 320 },
+      position: { x: 450, y },
       data: {
         label: proj.name,
         owner: proj.id === "p1" ? "Rounit Srivastava" : "Abhishek Kumar",
@@ -107,21 +142,18 @@ export function buildGraph({
     });
   });
 
-  // --- 4. Add Task Nodes (Column 3+ based on levels: x = 800 + level * 350) ---
-  // Track vertical offsets per project and level to avoid overlaps
+  // --- 5. Add Task Nodes (Column 3+ based on levels: x = 750 + level * 320) ---
   const levelOffsets: Record<string, number> = {};
 
   tasks.forEach((task) => {
     const level = taskLevels[task.id] || 0;
-    const projectIndex = projects.findIndex((p) => p.id === task.project);
     const key = `${task.project}_${level}`;
     const offsetIndex = levelOffsets[key] || 0;
     levelOffsets[key] = offsetIndex + 1;
 
-    // Define swimlane base y: Project 1 starts at y=100, Project 2 starts at y=600
-    const swimlaneBaseY = 100 + projectIndex * 500;
-    const y = swimlaneBaseY + offsetIndex * 180;
-    const x = 800 + level * 350;
+    const swimlaneBaseY = projectBaseY[task.project] || 100;
+    const y = swimlaneBaseY + offsetIndex * 170;
+    const x = 750 + level * 320;
 
     const ownerName = employees.find((e) => e.id === task.owner)?.name || "Unassigned";
 
@@ -152,23 +184,22 @@ export function buildGraph({
     });
   });
 
-  // --- 5. Generate Edges ---
-  // A. Employee -> Task (OWNS relationship)
-  tasks.forEach((task, index) => {
+  // --- 6. Generate Edges ---
+  // A. Employee -> Task (OWNS relationship - rendered subtly to prevent clutter)
+  tasks.forEach((task) => {
     if (task.status !== "Completed") {
       edges.push({
         id: `edge_own_${task.id}`,
         source: task.owner,
         target: task.id,
         label: "OWNS",
-        animated: task.status === "In Progress" || task.status === "Blocked",
-        style: { stroke: "#3b82f6", strokeWidth: 1.5, opacity: 0.6 },
+        animated: task.status === "In Progress",
+        style: { stroke: "#94a3b8", strokeWidth: 1, strokeDasharray: "4,4", opacity: 0.35 },
       });
     }
   });
 
-  // B. Project -> Task (REQUIRES relationship)
-  // Let's connect project node to any Level 0 tasks in the project to show entry points
+  // B. Project -> Task (REQUIRES relationship - rendered subtly)
   tasks.forEach((task) => {
     const level = taskLevels[task.id] || 0;
     if (level === 0) {
@@ -178,12 +209,12 @@ export function buildGraph({
         target: task.id,
         label: "REQUIRES",
         animated: false,
-        style: { stroke: "#64748b", strokeWidth: 1.5, strokeDasharray: "5,5" },
+        style: { stroke: "#cbd5e1", strokeWidth: 1, strokeDasharray: "3,3", opacity: 0.5 },
       });
     }
   });
 
-  // C. Task -> Task (BLOCKS relationship)
+  // C. Task -> Task (BLOCKS/DEPENDS_ON relationship - solid colored path flow)
   dependencies.forEach((dep, index) => {
     const sourceTask = tasks.find((t) => t.id === dep.source);
     const targetTask = tasks.find((t) => t.id === dep.target);
@@ -199,6 +230,7 @@ export function buildGraph({
         style: {
           stroke: sourceTask.status === "Blocked" ? "#ef4444" : "#f59e0b",
           strokeWidth: isCritical ? 2.5 : 1.5,
+          opacity: isCritical ? 0.9 : 0.75,
         },
       });
     }

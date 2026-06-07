@@ -125,8 +125,16 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       if (storedTasks) setTasks(JSON.parse(storedTasks));
       else setTasks(initialTasks);
 
-      if (storedDependencies) setDependencies(JSON.parse(storedDependencies));
-      else setDependencies(initialDependencies);
+      if (storedDependencies) {
+        const parsed = JSON.parse(storedDependencies);
+        if (Array.isArray(parsed) && parsed.length <= 3) {
+          setDependencies(initialDependencies);
+        } else {
+          setDependencies(parsed);
+        }
+      } else {
+        setDependencies(initialDependencies);
+      }
 
       if (storedDecisions) setDecisions(JSON.parse(storedDecisions));
       else setDecisions(initialDecisions);

@@ -2,7 +2,28 @@
 
 import { useState, useEffect } from "react";
 import { useData } from "@/context/DataContext";
-import { AlertTriangle, ShieldAlert, Award, Clock, Play, RefreshCw, Edit2, Save, Trash2, X } from "lucide-react";
+import { 
+  AlertTriangle, 
+  ShieldAlert, 
+  Award, 
+  Clock, 
+  Play, 
+  RefreshCw, 
+  Edit2, 
+  Save, 
+  Trash2, 
+  X,
+  User, 
+  Briefcase, 
+  CheckCircle2, 
+  Calendar, 
+  Percent, 
+  BarChart4,
+  Activity,
+  ChevronRight,
+  Bot,
+  Network
+} from "lucide-react";
 
 interface Props {
   selectedNode: any;
@@ -58,25 +79,77 @@ export default function GraphSidebar({
     }
   }, [selectedNode, employees]);
 
+
+
   if (!selectedNode) {
     return (
-      <div className="w-96 bg-white border-l border-slate-200 p-6 flex flex-col justify-between h-full">
-        <div>
-          <h2 className="text-slate-900 text-lg font-bold flex items-center gap-2">
-            <ShieldAlert className="text-indigo-600" size={20} />
-            OrgMind Intelligence
-          </h2>
+      <div style={{
+        width: 360,
+        background: "#ffffff",
+        borderLeft: "1px solid #e2e8f0",
+        padding: "24px",
+        overflowY: "auto",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        boxShadow: "-8px 0 24px rgba(0,0,0,0.01)"
+      }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px", flex: 1 }}>
+          {/* Header */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", paddingBottom: "16px", borderBottom: "1px solid #f1f5f9" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "#f1f5f9", display: "flex", alignItems: "center", justifyCenter: "center", flexShrink: 0, border: "1px solid #e2e8f0" }}>
+              <Bot className="text-slate-500 mx-auto" size={16} />
+            </div>
+            <div>
+              <h2 style={{ fontSize: "13px", fontWeight: 700, color: "#0f172a", margin: 0 }}>
+                AI Graph Inspector
+              </h2>
+              <span style={{ fontSize: "10px", color: "#64748b", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em", display: "block", marginTop: "2px" }}>Live Intelligence</span>
+            </div>
+          </div>
 
-          <p className="text-slate-500 text-sm mt-4 leading-relaxed">
-            Select any node in the Digital Twin graph to analyze project health, trace dependency impact pipelines, see workforce bottlenecks, and view AI recommendations.
-          </p>
+          {/* Empty Illustration */}
+          <div style={{ textAlign: "center", padding: "20px 0" }}>
+            <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#e0e7ff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", border: "1px solid #c7d2fe" }}>
+              <Network size={20} className="text-indigo-600 animate-pulse" />
+            </div>
+            <h3 style={{ fontSize: "13px", fontWeight: 700, color: "#0f172a", margin: "0 0 6px" }}>No Node Selected</h3>
+            <p style={{ fontSize: "12px", color: "#64748b", lineHeight: "1.5", margin: 0, padding: "0 10px" }}>
+              Click any employee, project, or task in the graph to view live logs, blockages, workloads, and AI recommendations.
+            </p>
+          </div>
+
+          {/* Capabilities */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            <span style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase", color: "#94a3b8", letterSpacing: "0.06em", display: "block" }}>Available Inspections</span>
+            {[
+              { title: "Timeline Simulation", desc: "Simulate custom project delays and trace blockers.", icon: Clock, color: "#d97706", bg: "#fef3c7" },
+              { title: "Capacity Tracking", desc: "Monitor team workload metrics and balance.", icon: AlertTriangle, color: "#e11d48", bg: "#fff1f2" },
+              { title: "AI Recovery Suggestions", desc: "Get specific mitigation ideas to resolve bottlenecks.", icon: Bot, color: "#2563eb", bg: "#eff6ff" },
+            ].map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div key={idx} style={{ display: "flex", gap: "12px", alignItems: "start", padding: "10px", borderRadius: "8px", background: "#f8fafc" }}>
+                  <div style={{ width: "24px", height: "24px", borderRadius: "6px", background: item.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Icon size={12} style={{ color: item.color }} />
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: "12px", fontWeight: 600, color: "#0f172a", margin: 0 }}>{item.title}</h4>
+                    <p style={{ fontSize: "11px", color: "#64748b", margin: "2px 0 0", lineHeight: "1.4" }}>{item.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="bg-slate-50 border border-slate-100 p-4 rounded-xl">
-          <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-1 font-bold">Status Panel</span>
-          <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1.5">
-            <span className="w-2 height-2 rounded-full bg-emerald-500 inline-block" /> ✓ System fully synchronized
-          </span>
+        {/* Footer */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "12px", borderTop: "1px solid #f1f5f9" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
+            <span style={{ fontSize: "11px", fontWeight: 600, color: "#64748b" }}>Live Sync</span>
+          </div>
+          <span style={{ fontSize: "10px", fontFamily: "var(--font-mono)", color: "#94a3b8" }}>v1.2.0</span>
         </div>
       </div>
     );
@@ -88,9 +161,6 @@ export default function GraphSidebar({
 
   const handleSave = () => {
     if (nodeType === "taskNode") {
-      // Find employee name from selected ID
-      const emp = employees.find(e => e.id === editOwner);
-      
       updateTask(selectedNode.id, {
         title: editLabel,
         owner: editOwner,
@@ -112,35 +182,75 @@ export default function GraphSidebar({
     setIsEditing(false);
   };
 
+  // Badge dynamic style mapping
+  const badgeConfig = {
+    employeeNode: { label: "Employee", bg: "#e0e7ff", text: "#4338ca", border: "#c7d2fe" },
+    projectNode: { label: "Project", bg: "#e0f2fe", text: "#0369a1", border: "#bae6fd" },
+    taskNode: { label: "Task", bg: "#fef3c7", text: "#b45309", border: "#fde68a" },
+  }[nodeType as "employeeNode" | "projectNode" | "taskNode"] || { label: "Node", bg: "#f1f5f9", text: "#475569", border: "#cbd5e1" };
+
   return (
-    <div className="w-96 bg-white border-l border-slate-200 p-6 overflow-y-auto flex flex-col justify-between h-full">
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="flex justify-between items-start gap-2">
-          <div>
-            <span className="text-[10px] px-2.5 py-1 rounded-full font-bold uppercase bg-indigo-50 text-indigo-700 border border-indigo-100">
-              {nodeType === "employeeNode" ? "Employee Node" : nodeType === "projectNode" ? "Project Node" : "Task Node"}
+    <div style={{
+      width: 360,
+      background: "#ffffff",
+      borderLeft: "1px solid #e2e8f0",
+      padding: "24px",
+      overflowY: "auto",
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      boxShadow: "-8px 0 24px rgba(0,0,0,0.01)"
+    }} className="fade-in">
+      <div style={{ display: "flex", flexDirection: "column", gap: "24px", flex: 1 }}>
+        
+        {/* Header Block */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", gap: "12px", paddingBottom: "16px", borderBottom: "1px solid #f1f5f9" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 1 }}>
+            <span style={{
+              display: "inline-flex",
+              alignItems: "center",
+              width: "fit-content",
+              padding: "2px 8px",
+              borderRadius: "4px",
+              fontSize: "10px",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.04em",
+              border: `1px solid ${badgeConfig.border}`,
+              background: badgeConfig.bg,
+              color: badgeConfig.text
+            }}>
+              {badgeConfig.label}
             </span>
             
             {!isEditing ? (
-              <h2 className="text-xl text-slate-900 font-bold mt-3 leading-tight">
+              <h2 style={{ fontSize: "16px", fontWeight: 750, color: "#0f172a", letterSpacing: "-0.02em", margin: 0, lineHeight: 1.25 }}>
                 {data.label}
               </h2>
             ) : (
-              <div className="mt-3">
-                <label className="text-[10px] font-bold text-slate-400 uppercase">Edit Name / Title</label>
+              <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginTop: "4px" }}>
+                <label style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase", color: "#94a3b8", letterSpacing: "0.04em" }}>Edit Title / Name</label>
                 <input
                   type="text"
                   value={editLabel}
                   onChange={(e) => setEditLabel(e.target.value)}
-                  className="w-full mt-1 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 outline-none focus:border-indigo-500"
+                  style={{
+                    width: "100%",
+                    padding: "6px 10px",
+                    background: "#ffffff",
+                    border: "1px solid #cbd5e1",
+                    borderRadius: "6px",
+                    fontSize: "12px",
+                    color: "#0f172a",
+                    outline: "none"
+                  }}
                 />
               </div>
             )}
 
-            <p className="text-slate-400 text-xs mt-1">
-              ID: <span className="font-mono">{selectedNode.id}</span>
-            </p>
+            <div style={{ fontSize: "10.5px", fontFamily: "var(--font-mono)", color: "#94a3b8" }}>
+              ID: <span style={{ fontWeight: 600, color: "#64748b" }}>{selectedNode.id}</span>
+            </div>
           </div>
 
           <button
@@ -148,10 +258,13 @@ export default function GraphSidebar({
             style={{
               padding: "6px",
               borderRadius: "6px",
-              border: "1px solid #e5e7eb",
-              background: "#fff",
+              border: "1px solid #cbd5e1",
+              background: isEditing ? "#fff5f5" : "#ffffff",
+              color: isEditing ? "#e11d48" : "#475569",
               cursor: "pointer",
-              color: isEditing ? "#ef4444" : "#4b5563",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
             }}
             title={isEditing ? "Cancel Edit" : "Edit Node"}
           >
@@ -159,37 +272,56 @@ export default function GraphSidebar({
           </button>
         </div>
 
-        {/* Basic Details Panel */}
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-4">
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Details</h3>
+        {/* Node Specifications */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <h3 style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#94a3b8", margin: "0 0 4px" }}>
+            Specifications
+          </h3>
           
-          {/* Edit / View fields */}
           {!isEditing ? (
-            // VIEW MODE
-            <>
+            // VIEW MODE (Flat Key Value Layout)
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <DetailRow
                 title="Owner / Assignee"
                 value={data.owner || "Not Assigned"}
+                icon={<User size={12} />}
               />
 
               {data.role && (
                 <DetailRow
                   title="Job Role"
                   value={data.role}
+                  icon={<Briefcase size={12} />}
                 />
               )}
 
-              <div>
-                <p className="text-slate-500 text-[10px] uppercase font-bold tracking-wider">Risk Level</p>
+              {/* Risk Level Row */}
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "10px 0",
+                borderBottom: "1px solid #f1f5f9"
+              }}>
+                <span style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12.5px", fontWeight: 500, color: "#64748b" }}>
+                  <AlertTriangle size={12} style={{ color: data.risk === "High" ? "#e11d48" : data.risk === "Medium" ? "#d97706" : "#10b981" }} />
+                  Risk Rating
+                </span>
                 <span
-                  className={`inline-block mt-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
-                    data.risk === "High"
-                      ? "bg-rose-50 text-rose-700 border border-rose-200"
-                      : data.risk === "Medium"
-                      ? "bg-amber-50 text-amber-700 border border-amber-200"
-                      : "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                  }`}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    padding: "2px 8px",
+                    borderRadius: "100px",
+                    fontSize: "10.5px",
+                    fontWeight: 700,
+                    background: data.risk === "High" ? "#fff1f2" : data.risk === "Medium" ? "#fef3c7" : "#ecfdf5",
+                    color: data.risk === "High" ? "#e11d48" : data.risk === "Medium" ? "#b45309" : "#047857",
+                    border: `1px solid ${data.risk === "High" ? "#fecdd3" : data.risk === "Medium" ? "#fde68a" : "#a7f3d0"}`
+                  }}
                 >
+                  <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: data.risk === "High" ? "#e11d48" : data.risk === "Medium" ? "#d97706" : "#10b981" }} />
                   {data.risk || "Low"}
                 </span>
               </div>
@@ -197,50 +329,92 @@ export default function GraphSidebar({
               <DetailRow
                 title="Status"
                 value={data.status || "Healthy"}
+                icon={<CheckCircle2 size={12} />}
               />
 
               {data.dueDate && (
                 <DetailRow
                   title="Due Date"
                   value={data.dueDate}
+                  icon={<Calendar size={12} />}
                 />
               )}
 
+              {/* Progress Slider Display */}
               {data.progress !== undefined && (
-                <div>
-                  <p className="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1.5">Progress</p>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-slate-200 rounded-full h-2 overflow-hidden">
-                      <div className="bg-indigo-600 h-2 rounded-full" style={{ width: `${data.progress}%` }} />
-                    </div>
-                    <span className="text-slate-900 text-xs font-bold font-mono">{data.progress}%</span>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px",
+                  padding: "10px 0",
+                  borderBottom: "1px solid #f1f5f9"
+                }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12.5px" }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 500, color: "#64748b" }}>
+                      <Percent size={12} className="text-indigo-500" />
+                      Progress
+                    </span>
+                    <span style={{ fontWeight: 700, color: "#0f172a", fontFamily: "var(--font-mono)" }}>{data.progress}%</span>
+                  </div>
+                  <div style={{ height: "4px", background: "#f1f5f9", borderRadius: "100px", overflow: "hidden" }}>
+                    <div 
+                      style={{
+                        height: "100%",
+                        background: "linear-gradient(90deg, #4f46e5, #7c3aed)",
+                        width: `${data.progress}%`,
+                      }}
+                    />
                   </div>
                 </div>
               )}
 
+              {/* Workload Indicator */}
               {data.workload !== undefined && (
-                <div>
-                  <p className="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1.5">Workload Allocation</p>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-slate-200 rounded-full h-2 overflow-hidden">
-                      <div className={`h-2 rounded-full ${data.risk === "High" ? "bg-rose-500" : "bg-indigo-600"}`} style={{ width: `${data.workload}%` }} />
-                    </div>
-                    <span className="text-slate-900 text-xs font-bold font-mono">{data.workload}%</span>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px",
+                  padding: "10px 0",
+                  borderBottom: "1px solid #f1f5f9"
+                }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12.5px" }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 500, color: "#64748b" }}>
+                      <BarChart4 size={12} className="text-violet-500" />
+                      Workload
+                    </span>
+                    <span style={{ fontWeight: 700, color: "#0f172a", fontFamily: "var(--font-mono)" }}>{data.workload}%</span>
+                  </div>
+                  <div style={{ height: "4px", background: "#f1f5f9", borderRadius: "100px", overflow: "hidden" }}>
+                    <div 
+                      style={{
+                        height: "100%",
+                        background: data.workload > 85 ? "linear-gradient(90deg, #ef4444, #dc2626)" : "linear-gradient(90deg, #6366f1, #4f46e5)",
+                        width: `${data.workload}%`,
+                      }}
+                    />
                   </div>
                 </div>
               )}
-            </>
+            </div>
           ) : (
             // EDIT MODE FORM
-            <div className="space-y-3 text-slate-800">
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginTop: "8px" }}>
               {nodeType === "taskNode" && (
                 <>
-                  <div>
-                    <label className="text-[10px] font-bold text-slate-400 uppercase">Assignee</label>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <label style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase", color: "#94a3b8", letterSpacing: "0.04em" }}>Assignee</label>
                     <select
                       value={editOwner}
                       onChange={(e) => setEditOwner(e.target.value)}
-                      className="w-full mt-1 px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none"
+                      style={{
+                        width: "100%",
+                        padding: "6px 8px",
+                        background: "#ffffff",
+                        border: "1px solid #cbd5e1",
+                        borderRadius: "6px",
+                        fontSize: "12px",
+                        outline: "none"
+                      }}
                     >
                       {employees.map(e => (
                         <option key={e.id} value={e.id}>{e.name}</option>
@@ -248,12 +422,20 @@ export default function GraphSidebar({
                     </select>
                   </div>
 
-                  <div>
-                    <label className="text-[10px] font-bold text-slate-400 uppercase">Status</label>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <label style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase", color: "#94a3b8", letterSpacing: "0.04em" }}>Status</label>
                     <select
                       value={editStatus}
                       onChange={(e) => setEditStatus(e.target.value)}
-                      className="w-full mt-1 px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none"
+                      style={{
+                        width: "100%",
+                        padding: "6px 8px",
+                        background: "#ffffff",
+                        border: "1px solid #cbd5e1",
+                        borderRadius: "6px",
+                        fontSize: "12px",
+                        outline: "none"
+                      }}
                     >
                       <option value="Pending">Pending</option>
                       <option value="In Progress">In Progress</option>
@@ -262,62 +444,87 @@ export default function GraphSidebar({
                     </select>
                   </div>
 
-                  <div>
-                    <label className="text-[10px] font-bold text-slate-400 uppercase flex justify-between">
-                      <span>Progress</span>
-                      <span>{editProgress}%</span>
-                    </label>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", fontWeight: 705, color: "#64748b" }}>
+                      <span>Progress completion</span>
+                      <span style={{ color: "#4f46e5" }}>{editProgress}%</span>
+                    </div>
                     <input
                       type="range"
                       min="0"
                       max="100"
                       value={editProgress}
                       onChange={(e) => setEditProgress(Number(e.target.value))}
-                      className="w-full mt-1 accent-indigo-600"
+                      style={{ width: "100%", accentColor: "#4f46e5", height: "4px", cursor: "pointer" }}
                     />
                   </div>
 
-                  <div>
-                    <label className="text-[10px] font-bold text-slate-400 uppercase">Due Date</label>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <label style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase", color: "#94a3b8", letterSpacing: "0.04em" }}>Due Date</label>
                     <input
                       type="date"
                       value={editDueDate}
                       onChange={(e) => setEditDueDate(e.target.value)}
-                      className="w-full mt-1 px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none"
+                      style={{
+                        width: "100%",
+                        padding: "6px 8px",
+                        background: "#ffffff",
+                        border: "1px solid #cbd5e1",
+                        borderRadius: "6px",
+                        fontSize: "12px",
+                        outline: "none"
+                      }}
                     />
                   </div>
                 </>
               )}
 
               {nodeType === "employeeNode" && (
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400 uppercase">Job Role / Title</label>
+                <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                  <label style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase", color: "#94a3b8", letterSpacing: "0.04em" }}>Job Role / Title</label>
                   <input
                     type="text"
                     value={editRole}
                     onChange={(e) => setEditRole(e.target.value)}
-                    className="w-full mt-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none"
+                    style={{
+                      width: "100%",
+                      padding: "6px 8px",
+                      background: "#ffffff",
+                      border: "1px solid #cbd5e1",
+                      borderRadius: "6px",
+                      fontSize: "12px",
+                      outline: "none"
+                    }}
                   />
                 </div>
               )}
 
               {nodeType === "projectNode" && (
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400 uppercase">Lead Owner</label>
+                <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                  <label style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase", color: "#94a3b8", letterSpacing: "0.04em" }}>Lead Owner</label>
                   <input
                     type="text"
                     value={editOwner}
                     onChange={(e) => setEditOwner(e.target.value)}
-                    className="w-full mt-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none"
+                    style={{
+                      width: "100%",
+                      padding: "6px 8px",
+                      background: "#ffffff",
+                      border: "1px solid #cbd5e1",
+                      borderRadius: "6px",
+                      fontSize: "12px",
+                      outline: "none"
+                    }}
                   />
                 </div>
               )}
 
-              <div className="flex gap-2 pt-2">
+              {/* Edit Form Actions */}
+              <div style={{ display: "flex", gap: "6px", paddingTop: "8px", borderTop: "1px solid #f1f5f9" }}>
                 {showDeleteConfirm ? (
-                  <div className="w-full bg-rose-50 border border-rose-100 rounded-lg p-2 flex items-center justify-between text-xs animate-fade-in" style={{ border: "1px solid #fecaca" }}>
-                    <span className="text-rose-700 font-medium">Delete this task?</span>
-                    <div className="flex gap-1.5">
+                  <div style={{ width: "100%", background: "#fff5f5", border: "1px solid #fecdd3", borderRadius: "8px", padding: "10px", display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "11px" }}>
+                    <span style={{ color: "#e11d48", fontWeight: 600 }}>Confirm Delete?</span>
+                    <div style={{ display: "flex", gap: "4px" }}>
                       <button
                         type="button"
                         onClick={() => {
@@ -327,14 +534,32 @@ export default function GraphSidebar({
                           setIsEditing(false);
                           setShowDeleteConfirm(false);
                         }}
-                        className="bg-rose-600 hover:bg-rose-700 text-white px-2 py-1 rounded font-semibold text-[10px]"
+                        style={{
+                          background: "#e11d48",
+                          color: "#ffffff",
+                          padding: "3px 8px",
+                          borderRadius: "6px",
+                          fontWeight: 700,
+                          fontSize: "10.5px",
+                          border: "none",
+                          cursor: "pointer"
+                        }}
                       >
                         Yes
                       </button>
                       <button
                         type="button"
                         onClick={() => setShowDeleteConfirm(false)}
-                        className="bg-slate-200 hover:bg-slate-300 text-slate-700 px-2 py-1 rounded font-semibold text-[10px]"
+                        style={{
+                          background: "#e2e8f0",
+                          color: "#475569",
+                          padding: "3px 8px",
+                          borderRadius: "6px",
+                          fontWeight: 700,
+                          fontSize: "10.5px",
+                          border: "none",
+                          cursor: "pointer"
+                        }}
                       >
                         No
                       </button>
@@ -344,18 +569,43 @@ export default function GraphSidebar({
                   <>
                     <button
                       onClick={handleSave}
-                      className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm transition"
+                      style={{
+                        flex: 1,
+                        background: "#4f46e5",
+                        color: "#ffffff",
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        border: "none",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "6px"
+                      }}
                     >
-                      <Save size={13} /> Save Changes
+                      <Save size={12} /> Save
                     </button>
                     
                     {nodeType === "taskNode" && (
                       <button
                         onClick={() => setShowDeleteConfirm(true)}
-                        className="px-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-lg text-xs font-semibold flex items-center justify-center transition"
+                        style={{
+                          padding: "6px 10px",
+                          background: "#fff5f5",
+                          color: "#e11d48",
+                          border: "1px solid #fecdd3",
+                          borderRadius: "6px",
+                          fontSize: "12px",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
                         title="Delete Task"
                       >
-                        <Trash2 size={13} />
+                        <Trash2 size={12} />
                       </button>
                     )}
                   </>
@@ -365,16 +615,31 @@ export default function GraphSidebar({
           )}
         </div>
 
-        {/* Delay Simulation Slider (if node is currently active simulator source) */}
+        {/* Dynamic Timeline Impact Delay Simulation (only active simulator) */}
         {nodeType !== "employeeNode" && isThisNodeSimulating && !isEditing && (
-          <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
-            <h3 className="text-[10px] font-bold uppercase tracking-wider text-orange-800 mb-2">
-              Adjust Simulated Delay
+          <div style={{
+            position: "relative",
+            overflow: "hidden",
+            background: "#fffbeb",
+            borderLeft: "3px solid #f59e0b",
+            borderRadius: "0 8px 8px 0",
+            padding: "16px",
+            boxShadow: "0 1px 2px rgba(0,0,0,0.02)"
+          }}>
+            <h3 style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "#78350f", margin: "0 0 10px", display: "flex", alignItems: "center", gap: "6px" }}>
+              <span style={{ display: "flex", height: "8px", width: "8px", position: "relative" }}>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span style={{ position: "relative", display: "inline-flex", borderRadius: "50%", height: "4px", width: "4px", background: "#d97706", margin: "2px" }}></span>
+              </span>
+              Simulate Delay
             </h3>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs text-orange-900 font-semibold">
-                <span>Timeline Impact:</span>
-                <span className="font-mono bg-orange-100 px-2 py-0.5 rounded border border-orange-200">+{simulatedDelayDays} Days</span>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12px", fontWeight: 700, color: "#451a03" }}>
+                <span>Timeline Slippage:</span>
+                <span style={{ fontFamily: "var(--font-mono)", background: "#f59e0b", color: "#ffffff", padding: "1px 6px", borderRadius: "4px", fontSize: "10.5px", border: "1px solid #d97706", fontWeight: 700 }}>
+                  +{simulatedDelayDays} {simulatedDelayDays === 1 ? "Day" : "Days"}
+                </span>
               </div>
               <input
                 type="range"
@@ -382,67 +647,80 @@ export default function GraphSidebar({
                 max="30"
                 value={simulatedDelayDays}
                 onChange={(e) => setSimulatedDelayDays(Number(e.target.value))}
-                className="w-full accent-orange-600 cursor-pointer h-2 bg-orange-200 rounded-lg appearance-none"
+                style={{ width: "100%", accentColor: "#d97706", cursor: "pointer", height: "4px", background: "#fef3c7", borderRadius: "4px", outline: "none" }}
               />
-              <span className="text-[10px] text-orange-700 block leading-snug">
-                Drag the slider to adjust task slippage and recalculate launch target dates dynamically.
-              </span>
+              <p style={{ fontSize: "11px", color: "#78350f", opacity: 0.8, lineHeight: "1.45", fontWeight: 500, margin: 0 }}>
+                Adjust slider to preview downstream timeline slippage across the map.
+              </p>
             </div>
           </div>
         )}
 
         {/* Impact Analysis (Only for projects and tasks) */}
         {nodeType !== "employeeNode" && !isEditing && (
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
-            <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">Impact Analysis</h3>
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div className="bg-white p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-400 block mb-0.5 text-[9px] uppercase font-bold">Projects Affected</span>
-                <span className="text-slate-800 font-bold text-sm">
-                  {data.impact?.projectsAffected || 1}
-                </span>
-              </div>
-              <div className="bg-white p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-400 block mb-0.5 text-[9px] uppercase font-bold">Teams Affected</span>
-                <span className="text-slate-800 font-bold text-sm">
-                  {data.impact?.teamsAffected || 2}
-                </span>
-              </div>
-              <div className="bg-white p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-400 block mb-0.5 text-[9px] uppercase font-bold">Est. Delay Risk</span>
-                <span className="text-orange-600 font-bold text-sm">
-                  +{isThisNodeSimulating ? simulatedDelayDays : (data.impact?.delay || 5)} Days
-                </span>
-              </div>
-              <div className="bg-white p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-400 block mb-0.5 text-[9px] uppercase font-bold">Risk Increase</span>
-                <span className="text-rose-600 font-bold text-sm">
-                  +{isThisNodeSimulating ? Math.min(60, simulatedDelayDays * 4) : (data.impact?.riskIncrease || 18)}%
-                </span>
-              </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <h3 style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#94a3b8", margin: 0 }}>
+              Impact Analysis
+            </h3>
+            
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+              {[
+                { label: "Projects Affected", value: data.impact?.projectsAffected || 1, color: "#0f172a" },
+                { label: "Teams Affected", value: data.impact?.teamsAffected || 2, color: "#0f172a" },
+                { label: "Est. Delay Risk", value: `+${isThisNodeSimulating ? simulatedDelayDays : (data.impact?.delay || 5)} Days`, color: "#b45309" },
+                { label: "Risk Increase", value: `+${isThisNodeSimulating ? Math.min(60, simulatedDelayDays * 4) : (data.impact?.riskIncrease || 18)}%`, color: "#be123c" }
+              ].map((c, i) => (
+                <div key={i} style={{
+                  background: "#f8fafc",
+                  border: "1px solid #f1f5f9",
+                  padding: "10px 12px",
+                  borderRadius: "8px",
+                }}>
+                  <span style={{ display: "block", marginBottom: "2px", fontSize: "9px", fontWeight: 700, textTransform: "uppercase", color: "#94a3b8", letterSpacing: "0.04em" }}>
+                    {c.label}
+                  </span>
+                  <span style={{ fontWeight: 800, fontSize: "13px", color: c.color, letterSpacing: "-0.01em" }}>
+                    {c.value}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         )}
 
         {/* AI Insight & Recommendations */}
         {!isEditing && (
-          <div className="space-y-3">
-            <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4 text-xs">
-              <h3 className="text-indigo-700 font-bold flex items-center gap-1.5 mb-1.5 uppercase tracking-wider">
-                <Award size={14} />
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            {/* AI Insight */}
+            <div style={{
+              background: "#f8fafc",
+              borderLeft: "3px solid #6366f1",
+              borderRadius: "0 8px 8px 0",
+              padding: "16px",
+              boxShadow: "0 1px 2px rgba(0,0,0,0.01)"
+            }}>
+              <h3 style={{ color: "#1e293b", fontWeight: 700, display: "flex", alignItems: "center", gap: "6px", margin: "0 0 8px", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                <Award size={12} style={{ color: "#6366f1" }} />
                 AI Insight
               </h3>
-              <p className="text-slate-700 leading-relaxed">
+              <p style={{ color: "#475569", lineHeight: "1.5", fontSize: "12px", fontWeight: 500, margin: 0 }}>
                 {data.aiInsight}
               </p>
             </div>
 
-            <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 text-xs">
-              <h3 className="text-emerald-700 font-bold flex items-center gap-1.5 mb-1.5 uppercase tracking-wider">
-                <Clock size={14} />
+            {/* Recommendation */}
+            <div style={{
+              background: "#f0fdf4",
+              borderLeft: "3px solid #10b981",
+              borderRadius: "0 8px 8px 0",
+              padding: "16px",
+              boxShadow: "0 1px 2px rgba(0,0,0,0.01)"
+            }}>
+              <h3 style={{ color: "#1e293b", fontWeight: 700, display: "flex", alignItems: "center", gap: "6px", margin: "0 0 8px", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                <Clock size={12} style={{ color: "#10b981" }} />
                 Recommendation
               </h3>
-              <p className="text-slate-700 leading-relaxed">
+              <p style={{ color: "#047857", lineHeight: "1.5", fontSize: "12px", fontWeight: 500, margin: 0 }}>
                 {data.recommendation}
               </p>
             </div>
@@ -452,26 +730,58 @@ export default function GraphSidebar({
 
       {/* Action Button at bottom */}
       {nodeType !== "employeeNode" && !isEditing && (
-        <div className="mt-6 pt-4 border-t border-slate-200">
+        <div style={{ marginTop: "20px", paddingTop: "16px", borderTop: "1px solid #f1f5f9" }}>
           {isThisNodeSimulating ? (
             <button
               onClick={onClearSimulation}
-              className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-xl font-medium transition flex items-center justify-center gap-2 shadow-sm font-semibold text-sm"
+              style={{
+                width: "100%",
+                background: "linear-gradient(90deg, #f97316, #d97706)",
+                color: "#ffffff",
+                padding: "10px",
+                borderRadius: "8px",
+                fontWeight: 700,
+                fontSize: "12px",
+                border: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                boxShadow: "0 2px 4px rgba(249,115,22,0.1)",
+                transition: "all 0.15s ease"
+              }}
             >
-              <RefreshCw size={16} />
-              Reset Delay Simulation
+              <RefreshCw size={14} />
+              Reset Simulation
             </button>
           ) : (
             <button
               onClick={() => onSimulate(selectedNode.id)}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-medium transition flex items-center justify-center gap-2 shadow-sm font-semibold text-sm"
+              style={{
+                width: "100%",
+                background: "#4f46e5",
+                color: "#ffffff",
+                padding: "10px",
+                borderRadius: "8px",
+                fontWeight: 700,
+                fontSize: "12px",
+                border: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                boxShadow: "0 2px 4px rgba(79,70,229,0.1)",
+                transition: "all 0.15s ease"
+              }}
             >
-              <Play size={16} style={{ fill: "#fff" }} />
+              <Play size={12} style={{ color: "#ffffff", fill: "#ffffff" }} />
               Simulate Delay Impact
             </button>
           )}
-          <p className="text-slate-400 text-[10px] text-center mt-2.5 leading-snug font-medium">
-            Highlight downstream paths and preview launch timeline slips across the entire digital twin map.
+          <p style={{ color: "#94a3b8", fontSize: "10px", textAlign: "center", marginTop: "8px", lineHeight: "1.4", fontWeight: 500 }}>
+            Trace blocked paths and preview launch timeline cascades.
           </p>
         </div>
       )}
@@ -482,18 +792,25 @@ export default function GraphSidebar({
 function DetailRow({
   title,
   value,
+  icon,
 }: {
   title: string;
   value: string;
+  icon?: React.ReactNode;
 }) {
   return (
-    <div>
-      <p className="text-slate-500 text-[10px] uppercase tracking-wider font-bold">
+    <div style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "10px 0",
+      borderBottom: "1px solid #f1f5f9"
+    }}>
+      <span style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12.5px", fontWeight: 500, color: "#64748b" }}>
+        {icon}
         {title}
-      </p>
-      <p className="text-slate-800 font-semibold text-sm mt-0.5">
-        {value}
-      </p>
+      </span>
+      <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#0f172a" }}>{value}</span>
     </div>
   );
 }

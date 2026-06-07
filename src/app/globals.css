@@ -1,15 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 :root {
   /* Sidebar */
-  --sidebar-bg:       #0f1117;
-  --sidebar-border:   #1e2130;
-  --sidebar-text:     #8b93a7;
-  --sidebar-active:   #ffffff;
-  --sidebar-hover:    #1a1f2e;
-  --sidebar-active-bg:#1e2b4a;
+  --sidebar-bg:       #ffffff;
+  --sidebar-border:   #e4e6eb;
+  --sidebar-text:     #64748b;
+  --sidebar-active:   #1e1b4b;
+  --sidebar-hover:    #f1f5f9;
+  --sidebar-active-bg:#e0e7ff;
 
   /* Main surface */
   --bg-base:          #f5f6f8;
@@ -59,7 +58,7 @@
 html, body {
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -69,15 +68,15 @@ html, body {
 
 /* ─── Typography ──────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.025em;
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   color: var(--text-primary);
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
 code, .mono {
-  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  font-family: var(--font-mono), 'JetBrains Mono', 'SF Mono', Consolas, monospace;
   font-size: 0.875em;
 }
 

@@ -14,7 +14,7 @@ import EmployeeNode from "./EmployeeNode";
 import ProjectNode from "./ProjectNode";
 import TaskNode from "./TaskNode";
 import GraphSidebar from "./GraphSidebar";
-import { Search, Filter, PlayCircle, XCircle } from "lucide-react";
+import { Search, Filter, PlayCircle, XCircle, ChevronDown } from "lucide-react";
 
 const nodeTypes = {
   employeeNode: EmployeeNode,
@@ -166,45 +166,78 @@ export default function OrgGraph({ defaultOnlyDependencies = false }: OrgGraphPr
   };
 
   return (
-    <div className="flex h-[80vh] bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+    <div style={{ display: "flex", height: "100%", background: "#fff", border: "1px solid #e2e8f0", borderRadius: 16, overflow: "hidden", boxShadow: "0 1px 6px rgba(0,0,0,0.06)" }}>
       {/* Main Canvas Area */}
       <div className="flex-1 flex flex-col relative">
         {/* Controls Toolbar */}
-        <div className="p-4 bg-white border-b border-slate-200 flex flex-wrap items-center justify-between gap-4 z-10">
+        <div className="px-6 py-4 bg-white border-b border-slate-100 flex flex-wrap items-center justify-between gap-4 z-10">
           <div className="flex items-center gap-3 flex-1 min-w-[240px]">
+            {/* Search Input */}
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-3 text-slate-400" size={16} />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={15} />
               <input
                 type="text"
                 placeholder="Search nodes by name, owner, role..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-50 text-slate-900 border border-slate-200 rounded-xl outline-none text-sm placeholder-slate-400 focus:border-indigo-500 transition-colors"
+                style={{
+                  width: "100%",
+                  height: "38px",
+                  paddingLeft: "40px",
+                  paddingRight: "16px",
+                  background: "#f8fafc",
+                  border: "1px solid #e2e8f0",
+                  borderRadius: "12px",
+                  fontSize: "13.5px",
+                  color: "#0f172a",
+                  outline: "none",
+                  transition: "all 0.15s ease",
+                }}
+                className="hover:border-slate-300 hover:bg-slate-100/30 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 placeholder-slate-400"
               />
             </div>
             
-            <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5">
-              <Filter className="text-slate-400" size={14} />
+            {/* Type Filter Dropdown */}
+            <div className="relative flex items-center">
+              <Filter className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={13} />
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value as any)}
-                className="bg-transparent text-slate-700 text-xs outline-none cursor-pointer py-0.5"
+                style={{
+                  height: "38px",
+                  paddingLeft: "40px",
+                  paddingRight: "36px",
+                  background: "#f8fafc",
+                  border: "1px solid #e2e8f0",
+                  borderRadius: "12px",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: "#475569",
+                  outline: "none",
+                  cursor: "pointer",
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  MozAppearance: "none",
+                  transition: "all 0.15s ease",
+                }}
+                className="hover:border-slate-300 hover:bg-slate-100/30 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
               >
                 <option value="ALL">All Nodes</option>
                 <option value="EMPLOYEE">Employees</option>
                 <option value="PROJECT">Projects</option>
                 <option value="TASK">Tasks</option>
               </select>
+              <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={14} />
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer font-medium">
+            <label className="flex items-center gap-2 text-xs text-slate-600 hover:text-slate-900 cursor-pointer font-semibold select-none transition-colors">
               <input
                 type="checkbox"
                 checked={onlyDependencies}
                 onChange={(e) => setOnlyDependencies(e.target.checked)}
-                className="w-4 h-4 rounded accent-indigo-600 bg-white border-slate-300"
+                className="w-4 h-4 rounded border-slate-300 text-indigo-600 accent-indigo-600 focus:ring-indigo-500/20 cursor-pointer"
               />
               <span>Only Dependency Edges</span>
             </label>
@@ -212,9 +245,9 @@ export default function OrgGraph({ defaultOnlyDependencies = false }: OrgGraphPr
             {simulatedNodeId && (
               <button
                 onClick={handleClearSimulation}
-                className="flex items-center gap-1 text-xs bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm font-semibold"
+                className="flex items-center gap-1.5 text-xs bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200/60 px-3.5 py-2 rounded-xl transition-all duration-150 font-semibold shadow-sm"
               >
-                <XCircle size={14} />
+                <XCircle size={14} className="text-rose-500" />
                 <span>Reset Simulation</span>
               </button>
             )}
@@ -224,9 +257,14 @@ export default function OrgGraph({ defaultOnlyDependencies = false }: OrgGraphPr
         {/* React Flow Area */}
         <div className="flex-1 relative bg-slate-50">
           {simulatedNodeId && (
-            <div className="absolute top-4 left-4 z-10 bg-orange-50 border border-orange-200 text-orange-700 text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm font-semibold">
-              <PlayCircle size={14} className="text-orange-600" />
-              <span>Simulating delay of +{simulatedDelayDays}d from: {nodesToRender.find(n => n.id === simulatedNodeId)?.data.label}</span>
+            <div className="absolute top-4 left-4 z-10 bg-amber-50/90 backdrop-blur-sm border border-amber-200/60 text-amber-900 text-xs px-3.5 py-2 rounded-xl flex items-center gap-2 shadow-sm font-semibold">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+              </span>
+              <span>
+                Simulating delay: <span className="text-amber-700 font-bold">+{simulatedDelayDays}d</span> from <span className="text-amber-950 font-bold">{nodesToRender.find(n => n.id === simulatedNodeId)?.data.label}</span>
+              </span>
             </div>
           )}
           

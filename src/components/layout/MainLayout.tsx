@@ -12,8 +12,10 @@ const ACCENT_PALETTES = {
 
 export default function MainLayout({
   children,
+  fullHeight = false,
 }: {
   children: React.ReactNode;
+  fullHeight?: boolean;
 }) {
   const { settings } = useData();
   const accentKey = settings?.accentColor || "indigo";
@@ -32,8 +34,17 @@ export default function MainLayout({
       <Sidebar />
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
         <Navbar />
-        <main style={{ flex: 1, padding: "24px 28px", overflowY: "auto" } as React.CSSProperties}>
-          {children}
+        <main style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" } as React.CSSProperties}>
+          <div style={{
+            flex: 1,
+            padding: "24px 28px",
+            overflowY: fullHeight ? "hidden" : "auto",
+            display: "flex",
+            flexDirection: "column",
+            minHeight: 0
+          }}>
+            {children}
+          </div>
         </main>
       </div>
     </div>
