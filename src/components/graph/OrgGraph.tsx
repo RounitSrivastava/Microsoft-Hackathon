@@ -14,7 +14,7 @@ import EmployeeNode from "./EmployeeNode";
 import ProjectNode from "./ProjectNode";
 import TaskNode from "./TaskNode";
 import GraphSidebar from "./GraphSidebar";
-import { Search, Filter, PlayCircle, XCircle, ChevronDown } from "lucide-react";
+import { Search, Filter, PlayCircle, XCircle, ChevronDown, Eye, EyeOff } from "lucide-react";
 
 const nodeTypes = {
   employeeNode: EmployeeNode,
@@ -37,6 +37,7 @@ export default function OrgGraph({ defaultOnlyDependencies = false }: OrgGraphPr
   // Custom delay simulator days state (passed to GraphSidebar and nodes)
   const [simulatedNodeId, setSimulatedNodeId] = useState<string | null>(null);
   const [simulatedDelayDays, setSimulatedDelayDays] = useState<number>(5);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
   // 1. Build nodes and edges dynamically from the live context state
   const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
@@ -251,6 +252,14 @@ export default function OrgGraph({ defaultOnlyDependencies = false }: OrgGraphPr
                 <span>Reset Simulation</span>
               </button>
             )}
+
+            <button
+              onClick={() => setIsSidebarVisible(!isSidebarVisible)}
+              className="flex items-center gap-1.5 text-xs bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/60 px-3.5 py-2 rounded-xl transition-all duration-150 font-semibold shadow-sm"
+            >
+              {isSidebarVisible ? <EyeOff size={14} className="text-slate-500" /> : <Eye size={14} className="text-slate-500" />}
+              <span>{isSidebarVisible ? "Hide Sidebar" : "Show Sidebar"}</span>
+            </button>
           </div>
         </div>
 
@@ -299,14 +308,16 @@ export default function OrgGraph({ defaultOnlyDependencies = false }: OrgGraphPr
       </div>
 
       {/* Sidebar Area */}
-      <GraphSidebar
-        selectedNode={selectedNode}
-        onSimulate={handleSimulate}
-        simulatedNodeId={simulatedNodeId}
-        onClearSimulation={handleClearSimulation}
-        simulatedDelayDays={simulatedDelayDays}
-        setSimulatedDelayDays={setSimulatedDelayDays}
-      />
+      {isSidebarVisible && (
+        <GraphSidebar
+          selectedNode={selectedNode}
+          onSimulate={handleSimulate}
+          simulatedNodeId={simulatedNodeId}
+          onClearSimulation={handleClearSimulation}
+          simulatedDelayDays={simulatedDelayDays}
+          setSimulatedDelayDays={setSimulatedDelayDays}
+        />
+      )}
     </div>
   );
 }
