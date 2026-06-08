@@ -97,7 +97,7 @@ export default function GraphSidebar({
         <div style={{ display: "flex", flexDirection: "column", gap: "24px", flex: 1 }}>
           {/* Header */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px", paddingBottom: "16px", borderBottom: "1px solid #f1f5f9" }}>
-            <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "#f1f5f9", display: "flex", alignItems: "center", justifyCenter: "center", flexShrink: 0, border: "1px solid #e2e8f0" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, border: "1px solid #e2e8f0" }}>
               <Bot className="text-slate-500 mx-auto" size={16} />
             </div>
             <div>
